@@ -12,7 +12,7 @@ import (
 	"github.com/ungerik/go-rss"
 )
 
-const version = "1.0.0"
+const version = "1.0.1"
 
 func doSelfUpdate() {
 	v := semver.MustParse(version)
