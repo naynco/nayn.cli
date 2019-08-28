@@ -56,7 +56,7 @@ func main() {
 					fmt.Print(err)
 				}
 
-				fmt.Println(ntime(s.Format("15:04")), narrow(">"), ntitle(item.Title))
+				fmt.Println(ntime(s.Format("15:04")), narrow(">"), ntitle(item.Title), narrow(">"), item.GUID)
 			}
 
 			lbd, err := channel.LastBuildDate.Parse()
