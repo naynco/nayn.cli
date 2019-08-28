@@ -42,6 +42,7 @@ func main() {
 			ntime := color.New(color.FgWhite, color.Bold).SprintFunc()
 			narrow := color.New(color.FgRed).SprintFunc()
 			ntitle := color.New(color.FgGreen).SprintFunc()
+			nlink := color.New(color.FgBlue).SprintFunc()
 
 			channel, err := rss.Read("https://nayn.co/feed/")
 			if err != nil {
@@ -56,7 +57,7 @@ func main() {
 					fmt.Print(err)
 				}
 
-				fmt.Println(ntime(s.Format("15:04")), narrow(">"), ntitle(item.Title), narrow(">"), item.GUID)
+				fmt.Println(ntime(s.Format("15:04")), narrow(">"), ntitle(item.Title), nlink(item.GUID))
 			}
 
 			lbd, err := channel.LastBuildDate.Parse()
