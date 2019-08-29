@@ -12,7 +12,7 @@ import (
 	"github.com/ungerik/go-rss"
 )
 
-const version = "1.0.2"
+const version = "1.0.3"
 
 func main() {
 	var cmdUpdate = &cobra.Command{
