@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-
 	"log"
+	"time"
 
 	"github.com/blang/semver"
 	"github.com/fatih/color"
@@ -51,13 +51,14 @@ func main() {
 
 			fmt.Println("\n" + nayn("NAYN") + co(".CO") + "\n")
 
+			loc, _ := time.LoadLocation("Europe/Istanbul")
 			for _, item := range channel.Item {
 				s, err := item.PubDate.Parse()
 				if err != nil {
 					fmt.Print(err)
 				}
 
-				fmt.Println(ntime(s.Format("15:04")), narrow(">"), ntitle(item.Title), nlink(item.GUID))
+				fmt.Println(ntime(s.In(loc).Format("15:04")), narrow(">"), ntitle(item.Title), nlink(item.GUID))
 			}
 
 			lbd, err := channel.LastBuildDate.Parse()
@@ -65,8 +66,8 @@ func main() {
 				fmt.Println(err)
 			}
 
-			fmt.Println("\n", lbd.Format("2006-01-02 15:04:05"))
-
+			fmt.Println("\n", narrow("Son güncelleme :"), lbd.In(loc).Format("2006-01-02 15:04:05"))
+			fmt.Println("\n", "sürüm", version)
 		},
 	}
 
