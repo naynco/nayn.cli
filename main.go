@@ -14,23 +14,27 @@ import (
 
 const version = "1.0.2"
 
-func doSelfUpdate() {
-	v := semver.MustParse(version)
-	latest, err := selfupdate.UpdateSelf(v, "naynco/nayn.cli")
-	if err != nil {
-		log.Println("Binary update failed:", err)
-		return
-	}
-	if latest.Version.Equals(v) {
-		// latest version is the same as current version. It means current binary is up to date.
-		log.Println("Current binary is the latest version", version)
-	} else {
-		log.Println("Successfully updated to version", latest.Version)
-		log.Println("Release note:\n", latest.ReleaseNotes)
-	}
-}
-
 func main() {
+	var cmdUpdate = &cobra.Command{
+		Use:   "update ",
+		Short: "Update ",
+		Long:  `up up up`,
+		Run: func(cmd *cobra.Command, args []string) {
+			v := semver.MustParse(version)
+			latest, err := selfupdate.UpdateSelf(v, "naynco/nayn.cli")
+			if err != nil {
+				log.Println("Binary update failed:", err)
+				return
+			}
+			if latest.Version.Equals(v) {
+				// latest version is the same as current version. It means current binary is up to date.
+				log.Println("Current binary is the latest version", version)
+			} else {
+				log.Println("Successfully updated to version", latest.Version)
+				log.Println("Release note:\n", latest.ReleaseNotes)
+			}
+		},
+	}
 
 	var cmdAll = &cobra.Command{
 		Use:   "all ",
@@ -73,5 +77,6 @@ func main() {
 
 	var rootCmd = &cobra.Command{Use: "nayn", Version: version}
 	rootCmd.AddCommand(cmdAll)
+	rootCmd.AddCommand(cmdUpdate)
 	rootCmd.Execute()
 }
