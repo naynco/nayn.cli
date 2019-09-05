@@ -10,6 +10,9 @@ import (
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
 	"github.com/spf13/cobra"
 	"github.com/ungerik/go-rss"
+
+	mex "github.com/monocash/exchange-rates/pkg/exchanger"
+	"github.com/monocash/exchange-rates/pkg/swap"
 )
 
 const version = "1.0.3"
@@ -71,7 +74,19 @@ func main() {
 			}
 
 			fmt.Println("\n", narrow("Son güncelleme :"), lbd.In(loc).Format("2006-01-02 15:04:05"))
+
+			Swap1 := swap.NewSwap()
+			Swap1.AddExchanger(mex.NewyahooAPI(nil)).Build()
+			usdToTryRate := Swap1.Latest("USD/TRY")
+
+			Swap2 := swap.NewSwap()
+			Swap2.AddExchanger(mex.NewyahooAPI(nil)).Build()
+			eurToTryRate := Swap2.Latest("EUR/TRY")
+
+			fmt.Println("\n", "USD", narrow(usdToTryRate.GetRateValue()), nlink("EUR"), narrow(eurToTryRate.GetRateValue()))
+
 			fmt.Println("\n", "sürüm", version)
+
 		},
 	}
 

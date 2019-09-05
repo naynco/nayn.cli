@@ -7,6 +7,7 @@ require (
 	github.com/fatih/color v1.7.0
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-isatty v0.0.9 // indirect
+	github.com/monocash/exchange-rates v0.0.0-20190905162714-6350c27fead8
 	github.com/paulrosania/go-charset v0.0.0-20190326053356-55c9d7a5834c // indirect
 	github.com/rhysd/go-github-selfupdate v1.1.0
 	github.com/spf13/cobra v0.0.5
