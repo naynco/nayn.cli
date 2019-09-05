@@ -15,7 +15,7 @@ import (
 	"github.com/monocash/exchange-rates/pkg/swap"
 )
 
-const version = "1.0.3"
+const version = "1.0.4"
 
 func main() {
 	var cmdUpdate = &cobra.Command{
