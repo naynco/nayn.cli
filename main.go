@@ -15,13 +15,13 @@ import (
 	"github.com/monocash/exchange-rates/pkg/swap"
 )
 
-const version = "1.0.4"
+const version = "1.0.5"
 
 func main() {
 	var cmdUpdate = &cobra.Command{
 		Use:   "update ",
-		Short: "Update ",
-		Long:  `up up up`,
+		Short: "Update binary to the latest version",
+		Long:  `Updates itself to the latest version`,
 		Run: func(cmd *cobra.Command, args []string) {
 			v := semver.MustParse(version)
 			latest, err := selfupdate.UpdateSelf(v, "naynco/nayn.cli")
@@ -39,10 +39,30 @@ func main() {
 		},
 	}
 
+	var cmdSwap = &cobra.Command{
+		Use:   "swap ",
+		Short: "Update binary to the latest version",
+		Long:  `Updates itself to the latest version`,
+		Run: func(cmd *cobra.Command, args []string) {
+
+			narrow := color.New(color.FgRed).SprintFunc()
+			nlink := color.New(color.FgBlue).SprintFunc()
+			Swap1 := swap.NewSwap()
+			Swap1.AddExchanger(mex.NewyahooAPI(nil)).Build()
+			usdToTryRate := Swap1.Latest("USD/TRY")
+
+			Swap2 := swap.NewSwap()
+			Swap2.AddExchanger(mex.NewyahooAPI(nil)).Build()
+			eurToTryRate := Swap2.Latest("EUR/TRY")
+
+			fmt.Println("USD", narrow(usdToTryRate.GetRateValue()), nlink("EUR"), narrow(eurToTryRate.GetRateValue()))
+		},
+	}
+
 	var cmdAll = &cobra.Command{
 		Use:   "all ",
 		Short: "Read all news",
-		Long:  `read read read`,
+		Long:  `Fetch the RSS feed and display time,title and link`,
 		Run: func(cmd *cobra.Command, args []string) {
 			nayn := color.New(color.FgWhite, color.Bold, color.Underline).SprintFunc()
 			co := color.New(color.FgYellow, color.Bold).SprintFunc()
@@ -75,16 +95,6 @@ func main() {
 
 			fmt.Println("\n", narrow("Son güncelleme :"), lbd.In(loc).Format("2006-01-02 15:04:05"))
 
-			Swap1 := swap.NewSwap()
-			Swap1.AddExchanger(mex.NewyahooAPI(nil)).Build()
-			usdToTryRate := Swap1.Latest("USD/TRY")
-
-			Swap2 := swap.NewSwap()
-			Swap2.AddExchanger(mex.NewyahooAPI(nil)).Build()
-			eurToTryRate := Swap2.Latest("EUR/TRY")
-
-			fmt.Println("\n", "USD", narrow(usdToTryRate.GetRateValue()), nlink("EUR"), narrow(eurToTryRate.GetRateValue()))
-
 			fmt.Println("\n", "sürüm", version)
 
 		},
@@ -93,5 +103,6 @@ func main() {
 	var rootCmd = &cobra.Command{Use: "nayn", Version: version}
 	rootCmd.AddCommand(cmdAll)
 	rootCmd.AddCommand(cmdUpdate)
+	rootCmd.AddCommand(cmdSwap)
 	rootCmd.Execute()
 }
