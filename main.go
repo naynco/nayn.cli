@@ -15,7 +15,7 @@ import (
 	"github.com/monocash/exchange-rates/pkg/swap"
 )
 
-const version = "1.0.5"
+const version = "1.0.6"
 
 func main() {
 	var cmdUpdate = &cobra.Command{
@@ -41,8 +41,8 @@ func main() {
 
 	var cmdSwap = &cobra.Command{
 		Use:   "swap ",
-		Short: "Update binary to the latest version",
-		Long:  `Updates itself to the latest version`,
+		Short: "Show exchange rates",
+		Long:  `Prints out the exchange rates for USD/TRY and EUR/TRY`,
 		Run: func(cmd *cobra.Command, args []string) {
 
 			narrow := color.New(color.FgRed).SprintFunc()
